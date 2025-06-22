@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tegridy Farms | Official Memecoin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Rubik+Bubbles&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Comic Neue', cursive;
+            background-color: #f0fff0;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .title-font {
+            font-family: 'Rubik Bubbles', cursive;
+        }
+        
+        .randy-avatar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 120px;
+            height: 120px;
+            z-index: 100;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .randy-avatar:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .randy-speech {
+            position: absolute;
+            bottom: 140px;
+            right: 0;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid black;
+            font-size: 14px;
+            max-width: 150px;
+            display: none;
+        }
+        
+        .randy-speech:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: 20px;
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: white transparent;
+        }
+        
+        .weed-leaf {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="%234CAF50" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256 256-114.6 256-256S397.4 0 256 0zm0 480C132.5 480 32 379.5 32 256S132.5 32 256 32s224 100.5 224 224-100.5 224-224 224zm96-320c-17.7 0-32 14.3-32 32s14.3 32 32 32 32-14.3 32-32-14.3-32-32-32zm-192 0c-17.7 0-32 14.3-32 32s14.3 32 32 32 32-14.3 32-32-14.3-32-32-32zm96 96c-17.7 0-32 14.3-32 32s14.3 32 32 32 32-14.3 32-32-14.3-32-32-32z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.6;
+            z-index: -1;
+            animation: float 8s infinite ease-in-out;
+        }
+        
+        .joint {
+            position: absolute;
+            width: 60px;
+            height: 20px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="%23FFEB3B" d="M416 32H96c-17.7 0-32 14.3-32 32v384c0 17.7 14.3 32 32 32h320c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32zm-32 64v32H128V96h256zm0 64v32H128v-32h256zm0 64v32H128v-32h256zm0 64v32H128v-32h256zm0 64v32H128v-32h256z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: -1;
+            animation: float 10s infinite ease-in-out;
+        }
+        
+        .smoke {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="%23E0E0E0" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256 256-114.6 256-256S397.4 0 256 0zm0 480C132.5 480 32 379.5 32 256S132.5 32 256 32s224 100.5 224 224-100.5 224-224 224zm-32-160c-17.7 0-32 14.3-32 32s14.3 32 32 32 32-14.3 32-32-14.3-32-32-32zm64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32 32-14.3 32-32-14.3-32-32-32zm-128 0c-17.7 0-32 14.3-32 32s14.3 32 32 32 32-14.3 32-32-14.3-32-32-32z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.4;
+            z-index: -1;
+            animation: float 12s infinite ease-in-out;
+        }
+        
+        
+@keyframes fall {
+    0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+@keyframes float {
+
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        
+        .section-divider {
+            height: 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path fill="%234CAF50" d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25"/><path fill="%234CAF50" d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5"/><path fill="%234CAF50" d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,960,111c36.15,6.69,72.07,9.34,107.45,5.54C1133.55,109,1200,92.58,1200,75.75V0Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            margin-top: -1px;
+        }
+        
+        .token-card {
+            background: white;
+            border-radius: 15px;
+            border: 3px solid black;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .token-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 12px 12px 0 rgba(0,0,0,0.2);
+        }
+        
+        .meme-card {
+            background: white;
+            border-radius: 15px;
+            border: 3px solid black;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .meme-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 12px 12px 0 rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary {
+            background-color: #4CAF50;
+            color: white;
+            border: 3px solid black;
+            border-radius: 30px;
+            padding: 12px 24px;
+            font-weight: bold;
+            box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.2);
+            background-color: #3e8e41;
+        }
+        
+        .countdown-box {
+            background: white;
+            border: 3px solid black;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.2);
+        }
+        
+        .countdown-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        
+        .leaderboard-item {
+            background: white;
+            border: 3px solid black;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
+        }
+        
+        .night-mode {
+            background-color: #1a0033;
+            color: white;
+        }
+        
+        .night-mode .token-card,
+        .night-mode .meme-card,
+        .night-mode .countdown-box,
+        .night-mode .leaderboard-item {
+            background: #2d004d;
+            color: white;
+            border-color: #9c27b0;
+        }
+        
+        .night-mode .btn-primary {
+            background-color: #9c27b0;
+            border-color: white;
+        }
+        
+        .night-mode .section-divider {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path fill="%239c27b0" d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25"/><path fill="%239c27b0" d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5"/><path fill="%239c27b0" d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,960,111c36.15,6.69,72.07,9.34,107.45,5.54C1133.55,109,1200,92.58,1200,75.75V0Z"/></svg>');
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            border: 2px solid black;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating decorative elements -->
+    <div id="floating-elements"></div>
+    
+    <!-- Theme Toggle -->
+    <div id="theme-toggle" class="theme-toggle">
+        <i class="fas fa-moon text-xl"></i>
+    </div>
+    
+    <!-- Randy Avatar -->
+    <div class="randy-avatar">
+        <img src="https://i.ibb.co/zWq06Zm9/PHOTO-2025-06-22-09-51-48-removebg-preview.png" alt="Randy Marsh" class="w-full h-full object-contain">
+        <div class="randy-speech" id="randy-speech">Sharon, I started a token!</div>
+    </div>
+    
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center relative overflow-hidden" style="background-image: url('https://i.ibb.co/FkPvh9j8/PHOTO-2025-06-22-09-52-17.jpg'); background-size: cover; background-position: center;">
+        <div class="absolute inset-0 bg-black bg-opacity-30"></div>
+        <div class="container mx-auto px-4 relative z-10 text-center">
+            <img src="https://i.ibb.co/zWq06Zm9/PHOTO-2025-06-22-09-51-48-removebg-preview.png" alt="Tegridy Farms Logo" class="mx-auto w-48 md:w-64 mb-8">
+            <h1 class="title-font text-5xl md:text-7xl lg:text-8xl text-white mb-8">SHARON, I STARTED A TOKEN!</h1>
+            <a href="https://t.me/tegridyfarmseth" class="btn-primary inline-block text-2xl">Let Randy Cook</a>
+        </div>
+    </section>
+    
+    <div class="section-divider"></div>
+    
+    <!-- About Section -->
+    <section class="py-20 bg-green-50 relative overflow-hidden">
+        <div class="container mx-auto px-4">
+            <h2 class="title-font text-4xl md:text-5xl text-center mb-12 text-green-800">Welcome to the Official Tegridy Farms Community 🌿</h2>
+            
+            <div class="max-w-4xl mx-auto bg-white token-card p-8 mb-12">
+                <p class="text-xl mb-6">"Listen here, folks. I may not know much about this crypto mumbo jumbo, but I do know one thing - Tegridy. That's right, Tegridy. And that's what we're bringing to the blockchain. No funny business, no shady deals, just pure, uncut Tegridy."</p>
+                <p class="text-right text-lg font-bold">- Randy Marsh, Founder</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="token-card p-6 text-center">
+                    <div class="text-5xl mb-4">1,000,000,000</div>
+                    <div class="text-xl font-bold">$TEGRIDY pure and uncut 🌿</div>
+                </div>
+                
+                <div class="token-card p-6 text-center">
+                    <div class="text-5xl mb-4">🌳</div>
+                    <div class="text-xl font-bold">Fair launch, no presale</div>
+                </div>
+                
+                <div class="token-card p-6 text-center">
+                    <div class="text-5xl mb-4">🍁</div>
+                    <div class="text-xl font-bold">Burned LP</div>
+                </div>
+                
+                <div class="token-card p-6 text-center">
+                    <div class="text-5xl mb-4">🥇</div>
+                    <div class="text-xl font-bold">Doxxed team & AAA+ KOLs</div>
+                </div>
+                
+                <div class="token-card p-6 text-center">
+                    <div class="text-5xl mb-4">🤑</div>
+                    <div class="text-xl font-bold">Meme 2 Earn (M2E)</div>
+                </div>
+                
+                <div class="token-card p-6 text-center">
+                    <div class="text-5xl mb-4">🚬🌿</div>
+                    <div class="text-xl font-bold">Weekly burn events</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="section-divider"></div>
+    
+    <!-- Countdown Section -->
+    <section class="py-20 bg-white relative overflow-hidden">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="title-font text-4xl md:text-5xl mb-12 text-green-800">Let Randy Cook...</h2>
+            
+            <div class="max-w-2xl mx-auto countdown-box mb-12">
+                <div class="grid grid-cols-4 gap-4 mb-6">
+                    <div>
+                        <div class="countdown-number" id="days">00</div>
+                        <div>Days</div>
+                    </div>
+                    <div>
+                        <div class="countdown-number" id="hours">00</div>
+                        <div>Hours</div>
+                    </div>
+                    <div>
+                        <div class="countdown-number" id="minutes">00</div>
+                        <div>Minutes</div>
+                    </div>
+                    <div>
+                        <div class="countdown-number" id="seconds">00</div>
+                        <div>Seconds</div>
+                    </div>
+                </div>
+                <p class="text-xl">Launch date TBA... Randy's still cooking.</p>
+            </div>
+            
+            <img src="https://i.ibb.co/6RkPbsGQ/PHOTO-2025-06-22-09-51-56.jpg" alt="Randy Cooking" class="mx-auto rounded-lg shadow-lg max-w-full h-auto" style="max-height: 400px;">
+        </div>
+    </section>
+    
+    <div class="section-divider"></div>
+    
+    <!-- Meme of the Week -->
+    <section class="py-20 bg-green-50 relative overflow-hidden">
+        <div class="container mx-auto px-4">
+            <h2 class="title-font text-4xl md:text-5xl text-center mb-12 text-green-800">Meme of the Week</h2>
+            
+            <div class="max-w-4xl mx-auto mb-12">
+                <div class="meme-card">
+                    <img src="https://i.kym-cdn.com/photos/images/original/002/434/542/5e0.jpg" alt="Winning Meme" class="w-full">
+                    <div class="p-4">
+                        <h3 class="text-xl font-bold mb-2">"This is the way" by DankDon420</h3>
+                        <p>Winner of Week 1 Meme Contest - 100,000 $TEGRIDY prize!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <p class="text-xl mb-6">Post your dankest meme and win something from the Tegridy Patch 🌱</p>
+                <div class="flex justify-center space-x-4">
+                    <a href="#" class="btn-primary">Submit Meme</a>
+                    <a href="#" class="btn-primary">Vote Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="section-divider"></div>
+    
+    <!-- How To Buy -->
+    <section class="py-20 bg-white relative overflow-hidden">
+        <div class="container mx-auto px-4">
+            <h2 class="title-font text-4xl md:text-5xl text-center mb-12 text-green-800">How to Buy $TEGRIDY</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-5xl mx-auto mb-12">
+                <div class="text-center">
+                    <div class="bg-green-100 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-wallet text-4xl text-green-800"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">1. Download MetaMask</h3>
+                    <p>Get the browser extension or mobile app</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-green-100 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-exchange-alt text-4xl text-green-800"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">2. Buy ETH</h3>
+                    <p>Purchase on any exchange and send to your wallet</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-green-100 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-link text-4xl text-green-800"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">3. Go to Uniswap</h3>
+                    <p>Connect your wallet</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-green-100 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-coins text-4xl text-green-800"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">4. Swap ETH</h3>
+                    <p>For $TEGRIDY tokens</p>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <a href="#" class="btn-primary text-2xl">Buy on Uniswap</a>
+            </div>
+        </div>
+    </section>
+    
+    <div class="section-divider"></div>
+    
+    <!-- Token Stats -->
+    <section class="py-20 bg-green-50 relative overflow-hidden">
+        <div class="container mx-auto px-4">
+            <h2 class="title-font text-4xl md:text-5xl text-center mb-12 text-green-800">Token Stats</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                <div class="token-card p-6 text-center">
+                    <div class="text-3xl font-bold mb-2">COMING SOON</div>
+                    <div class="text-lg">Live $TEGRIDY price</div>
+                </div>
+                
+                <div class="token-card p-6 text-center">
+                    <div class="text-3xl font-bold mb-2">SOON</div>
+                    <div class="text-lg">Circulating supply</div>
+                </div>
+                
+                <div class="token-card p-6 text-center">
+                    <div class="text-3xl font-bold mb-2">100%</div>
+                    <div class="text-lg">LP Burned</div>
+                </div>
+                
+                <div class="token-card p-6 text-center">
+                    <div class="text-3xl font-bold mb-2">SOON</div>
+                    <div class="text-lg">Holders count</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="section-divider"></div>
+    
+    <!-- Leaderboard -->
+    <section class="py-20 bg-white relative overflow-hidden">
+        <div class="container mx-auto px-4">
+            <h2 class="title-font text-4xl md:text-5xl text-center mb-12 text-green-800">Top Meme Farmers</h2>
+            
+            <div class="max-w-2xl mx-auto">
+                <div class="leaderboard-item flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="bg-green-100 rounded-full w-10 h-10 flex items-center justify-center mr-4">
+                            <i class="fas fa-crown text-yellow-500"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold">StonedSatoshi</div>
+                            <div class="text-sm">420,000 $TEGRIDY earned</div>
+                        </div>
+                    </div>
+                    <div class="text-green-800 font-bold">#1</div>
+                </div>
+                
+                <div class="leaderboard-item flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="bg-green-100 rounded-full w-10 h-10 flex items-center justify-center mr-4">
+                            <i class="fas fa-medal text-gray-400"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold">DankDon420</div>
+                            <div class="text-sm">369,000 $TEGRIDY earned</div>
+                        </div>
+                    </div>
+                    <div class="text-green-800 font-bold">#2</div>
+                </div>
+                
+                <div class="leaderboard-item flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="bg-green-100 rounded-full w-10 h-10 flex items-center justify-center mr-4">
+                            <i class="fas fa-medal text-amber-700"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold">WeedWhale</div>
+                            <div class="text-sm">210,000 $TEGRIDY earned</div>
+                        </div>
+                    </div>
+                    <div class="text-green-800 font-bold">#3</div>
+                </div>
+                
+                <div class="leaderboard-item flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="bg-green-100 rounded-full w-10 h-10 flex items-center justify-center mr-4">
+                            <span class="font-bold">4</span>
+                        </div>
+                        <div>
+                            <div class="font-bold">GanjaGuru</div>
+                            <div class="text-sm">69,420 $TEGRIDY earned</div>
+                        </div>
+                    </div>
+                    <div class="text-green-800 font-bold">#4</div>
+                </div>
+                
+                <div class="leaderboard-item flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="bg-green-100 rounded-full w-10 h-10 flex items-center justify-center mr-4">
+                            <span class="font-bold">5</span>
+                        </div>
+                        <div>
+                            <div class="font-bold">PotPioneer</div>
+                            <div class="text-sm">42,069 $TEGRIDY earned</div>
+                        </div>
+                    </div>
+                    <div class="text-green-800 font-bold">#5</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="section-divider"></div>
+    
+    <!-- Socials -->
+    <section class="py-20 bg-green-50 relative overflow-hidden">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="title-font text-4xl md:text-5xl mb-12 text-green-800">Stay in the Loop 🌿</h2>
+            
+            <div class="flex justify-center space-x-6 mb-12">
+                <a href="https://t.me/tegridyfarmseth" class="bg-green-600 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl hover:bg-green-700 transition">
+                    <i class="fab fa-telegram"></i>
+                </a>
+                <a href="https://x.com/TegridyFarmsETH" class="bg-black text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl hover:bg-gray-800 transition">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://www.tiktok.com/@tegridy.farms.eth" class="bg-black text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl hover:bg-gray-800 transition">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+            </div>
+            
+            <p class="text-xl max-w-2xl mx-auto">"Like Chef always said: Let him cook!"</p>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="bg-green-800 text-white py-12 relative overflow-hidden">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-xl mb-6">"If you wanna grow something on the blockchain, you gotta respect the authoritah!"</p>
+            <p class="mb-6">© 2023 Tegridy Farms. All rights reserved. Not affiliated with South Park or Comedy Central.</p>
+            <div class="flex justify-center space-x-4">
+                <a href="#" class="text-white hover:text-green-200">Terms</a>
+                <a href="#" class="text-white hover:text-green-200">Privacy</a>
+                <a href="#" class="text-white hover:text-green-200">Contact</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Create floating elements
+        
+function createFloatingElements() {
+    const container = document.getElementById('floating-elements');
+    const types = ['weed-leaf', 'joint', 'smoke'];
+
+    for (let i = 0; i < 30; i++) {
+        const type = types[Math.floor(Math.random() * types.length)];
+        const element = document.createElement('div');
+        element.className = type;
+
+        const left = Math.random() * 100;
+        const delay = Math.random() * 20;
+        const duration = 10 + Math.random() * 10;
+
+        const size = type === 'weed-leaf' ? 30 + Math.random() * 40 :
+                     type === 'joint' ? 40 + Math.random() * 30 :
+                     60 + Math.random() * 50;
+
+        element.style.left = `${left}vw`;
+        element.style.top = `-${size}px`;
+        element.style.width = `${size}px`;
+        element.style.height = `${size}px`;
+        element.style.position = 'absolute';
+        element.style.animation = `fall ${duration}s linear ${delay}s infinite`;
+
+        container.appendChild(element);
+    }
+}
+// Randy avatar interaction
+        function setupRandyAvatar() {
+            const avatar = document.querySelector('.randy-avatar');
+            const speech = document.getElementById('randy-speech');
+            const quotes = [
+                "Sharon, I started a token!",
+                "You high yet?",
+                "Let me cook!",
+                "That's Tegridy!",
+                "I'm not just growing weed, I'm growing a movement!",
+                "420 blaze it!",
+                "This isn't just a token, it's a lifestyle",
+                "To the moon... literally!"
+            ];
+            
+            let isSpeaking = false;
+            
+            avatar.addEventListener('click', function() {
+                if (isSpeaking) return;
+                
+                isSpeaking = true;
+                const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+                speech.textContent = randomQuote;
+                speech.style.display = 'block';
+                
+                setTimeout(() => {
+                    speech.style.display = 'none';
+                    isSpeaking = false;
+                }, 3000);
+            });
+        }
+        
+        // Countdown timer
+        
+function setupCountdown() {
+    const launchDate = new Date(Date.UTC(2025, 6, 1, 18, 0, 0)); // 1 juli 2025 18:00 UTC
+
+    function updateCountdown() {
+        const now = new Date();
+        const diff = launchDate - now;
+
+        if (diff <= 0) {
+            document.getElementById('days').textContent = '00';
+            document.getElementById('hours').textContent = '00';
+            document.getElementById('minutes').textContent = '00';
+            document.getElementById('seconds').textContent = '00';
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById('days').textContent = days.toString().padStart(2, '0');
+        document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+        document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+}
+
+        
+        // Theme toggle
+        function setupThemeToggle() {
+            const toggle = document.getElementById('theme-toggle');
+            const icon = toggle.querySelector('i');
+            
+            toggle.addEventListener('click', function() {
+                document.body.classList.toggle('night-mode');
+                
+                if (document.body.classList.contains('night-mode')) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            });
+        }
+        
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            createFloatingElements();
+            setupRandyAvatar();
+            setupCountdown();
+            setupThemeToggle();
+        });
+    </script>
+</body>
+</html>
